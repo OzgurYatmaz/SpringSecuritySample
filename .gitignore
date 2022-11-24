@@ -1,0 +1,122 @@
+target/
+
+.project
+.classpath
+.settings
+.settings/
+
+src/generated/
+
+src/generated/*
+
+.DS_STORE
+
+/dist/
+bazel-*
+e2e_test.*
+node_modules
+bower_components
+tools/gulp-tasks/cldr/cldr-data/
+
+# Include when developing application packages.
+pubspec.lock
+.c9
+.idea/
+.settings/
+*.swo
+modules/.settings
+.bazelrc
+.vscode
+modules/.vscode
+
+*.orig
+
+# Don't check in secret files
+*secret.js
+
+# Ignore npm/yarn debug log
+npm-debug.log
+yarn-error.log
+
+# build-analytics
+.build-analytics
+
+# rollup-test output
+/modules/rollup-test/dist/
+
+
+
+
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+#.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+
+# compiled output
+/dist
+/dist-server
+/tmp
+/out-tsc
+/target
+/transaction-logs
+/logs
+
+# dependencies
+/node
+/node_modules
+
+# IDEs and editors
+/.idea
+.project
+#.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
