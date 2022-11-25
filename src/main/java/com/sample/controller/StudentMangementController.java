@@ -1,5 +1,6 @@
 package com.sample.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,10 +18,15 @@ import com.sample.model.Student;
 @RestController
 @RequestMapping("/management/api/v1/students")
 public class StudentMangementController {
-	public static List<Student> students=Arrays.asList( new Student(1, "Ebu Bekr Siddik"),
-		      new Student(2, "Omer ibn Hattab"),
-		      new Student(3, "Ali bin Ebu Talib") );
 	
+	static List<Student> students;
+	static {
+		students=new ArrayList<>();
+		students.add(new Student(1, "Ebu Bekr bin Kuhafe"));
+		students.add(new Student(2, "Muhammad ibn Idrīs"));
+		students.add(new Student(3, "Malik bin Enes"));
+	}
+		    
 	@GetMapping
 	public List<Student> getAllStudents(){
 		return students;
@@ -28,16 +34,32 @@ public class StudentMangementController {
 	
 	@PostMapping
 	public void registerNewStudent(@RequestBody Student student) {
-		System.out.println(student);
+		students.add(student);
+		System.out.println(student.getStudentName()+" is added!");
 	}
 	
 	@DeleteMapping(path="{studentId}")
 	public void deleteStudent(@PathVariable("studentId") Integer studentId) {
-		System.out.println(studentId);
+		try {
+			int index=0;
+			for(Student s:students) {
+				if(s.getStudentId()==studentId) {
+					students.remove(index);
+					System.out.println(s.getStudentName()+" is removed!");
+				}
+				index++;
+			}
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		
 	}
 	
 	@PutMapping(path="{studentId}")
 	public void updateStudent(@PathVariable("studentId") Integer studentId, @RequestBody Student student) {
-		System.out.println(student);
+		deleteStudent(studentId);
+		students.add(student);
+		System.out.println("Student with id "+studentId+" is updated!");
 	}
 }

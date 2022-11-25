@@ -1,6 +1,11 @@
 package com.sample.config;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.google.common.collect.Sets;
 import static com.sample.config.ApplicationUserPermission.*;
@@ -20,5 +25,25 @@ public enum ApplicationUserRole {
 		return permissions;
 	}
 	
+	public Set<SimpleGrantedAuthority> getGrantedAuthorities(){
+		Set<SimpleGrantedAuthority> permissions=getPermissions().stream()
+		.map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
+		.collect(Collectors.toSet());
+		
+		permissions.add(new SimpleGrantedAuthority("ROLE_"+this.name()));
+		
+		return permissions;
+	}
+	/*	public Set<SimpleGrantedAuthority> getGrantedAuthorities(){
+		Set<SimpleGrantedAuthority> auts=new HashSet<>();
+		Set<ApplicationUserPermission> pers = getPermissions();
+		for(ApplicationUserPermission p:pers) {
+			auts.add(new SimpleGrantedAuthority(p.getPermission()));
+		}
+		auts.add(new SimpleGrantedAuthority("ROLE_"+this.name()));
+		return auts;
+	}*/
 	
+	
+	 
 }
