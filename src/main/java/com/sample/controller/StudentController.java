@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sample.model.Student;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping("/api/v1/students")
+@SecurityRequirement(name = "Muh")
 public class StudentController {
 	
 	public static List<Student> students=Arrays.asList( 
