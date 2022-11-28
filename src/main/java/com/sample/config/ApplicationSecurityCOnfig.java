@@ -21,6 +21,14 @@ import static com.sample.config.ApplicationUserRole.*;
 @EnableWebSecurity
 public class ApplicationSecurityCOnfig extends WebSecurityConfigurerAdapter {
 	
+	private static final String[] AUTH_WHITELIST = {
+			"/","index","/css/*","/js/*",
+	        "/authenticate",
+	        "/swagger-resources/**",
+	        "/swagger-ui/**",
+	        "/v3/api-docs/**",
+	        "/webjars/**"
+	};
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -31,7 +39,7 @@ public class ApplicationSecurityCOnfig extends WebSecurityConfigurerAdapter {
 		http
 			.csrf().disable()
 			.authorizeHttpRequests()
-			.antMatchers("/","index","/css/*","/js/*").permitAll()//white listed Urls
+			.antMatchers(AUTH_WHITELIST).permitAll()//white listed Urls
 			.antMatchers("/api/**").hasRole(STUDENT.name())//only students can reach that path
 			.antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
 			.antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
