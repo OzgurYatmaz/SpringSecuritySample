@@ -3,6 +3,7 @@ package com.sample.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "Muh")
 public class StudentController {
 	
+	private Logger logger =Logger.getLogger(StudentController.class);
+	
 	public static List<Student> students=Arrays.asList( 
 			  new Student(1, "Ebu Bekr bin Kuhafe"),
 		      new Student(2, "Malik bin Enes"),
@@ -26,6 +29,7 @@ public class StudentController {
 	public Student getStudent(@PathVariable("studentId") Integer studentId) {
 		for(Student i:students) {
 			if(i.getStudentId()==studentId) {
+				logger.info(i.getStudentName()+" is retrieved!");
 				return i;
 			}
 		}

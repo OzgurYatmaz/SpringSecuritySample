@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @SecurityRequirement(name = "Muh2")
 public class StudentMangementController {
 	
+	private Logger logger =Logger.getLogger(StudentMangementController.class);
+	
 	static List<Student> students;
 	static {
 		students=new ArrayList<>();
@@ -32,12 +35,14 @@ public class StudentMangementController {
 		    
 	@GetMapping
 	public List<Student> getAllStudents(){
+		logger.info("All students are listed!");
 		return students;
 	}
 	
 	@PostMapping
 	public void registerNewStudent(@RequestBody Student student) {
 		students.add(student);
+		logger.info(student.getStudentName()+" is added!");
 		System.out.println(student.getStudentName()+" is added!");
 	}
 	
@@ -49,6 +54,7 @@ public class StudentMangementController {
 				if(s.getStudentId()==studentId) {
 					students.remove(index);
 					System.out.println(s.getStudentName()+" is removed!");
+					logger.info(s.getStudentName()+" is removed!");
 				}
 				index++;
 			}
@@ -64,5 +70,6 @@ public class StudentMangementController {
 		deleteStudent(studentId);
 		students.add(student);
 		System.out.println("Student with id "+studentId+" is updated!");
+		logger.info("Student with id "+studentId+" is updated!");
 	}
 }
