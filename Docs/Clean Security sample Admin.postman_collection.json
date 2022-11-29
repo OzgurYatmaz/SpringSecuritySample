@@ -170,7 +170,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"studentId\": 5,\r\n    \"studentName\":\"Ahmed bin Hanbel\"\r\n}",
+					"raw": "{\r\n    \"studentId\": 1,\r\n    \"studentName\":\"Ahmed bin Hanbel\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -178,7 +178,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/management/api/v1/students/5",
+					"raw": "http://localhost:8080/management/api/v1/students",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -188,8 +188,7 @@
 						"management",
 						"api",
 						"v1",
-						"students",
-						"5"
+						"students"
 					]
 				}
 			},

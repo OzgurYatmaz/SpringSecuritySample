@@ -193,7 +193,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/management/api/v1/students/5",
+					"raw": "http://localhost:8080/management/api/v1/students",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -203,8 +203,7 @@
 						"management",
 						"api",
 						"v1",
-						"students",
-						"5"
+						"students"
 					]
 				}
 			},

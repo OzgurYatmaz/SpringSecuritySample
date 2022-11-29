@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,12 +35,14 @@ public class StudentMangementController {
 	}
 		    
 	@GetMapping
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ADMINTRAINEE')")
 	public List<Student> getAllStudents(){
 		logger.info("All students are listed!");
 		return students;
 	}
 	
-	@PostMapping
+	@PostMapping                 
+	@PreAuthorize("hasAuthority('student:write')")
 	public void registerNewStudent(@RequestBody Student student) {
 		students.add(student);
 		logger.info(student.getStudentName()+" is added!");
@@ -47,6 +50,7 @@ public class StudentMangementController {
 	}
 	
 	@DeleteMapping(path="{studentId}")
+	@PreAuthorize("hasAuthority('student:write')")
 	public void deleteStudent(@PathVariable("studentId") Integer studentId) {
 		try {
 			int index=0;
@@ -65,11 +69,13 @@ public class StudentMangementController {
 		
 	}
 	
-	@PutMapping(path="{studentId}")
-	public void updateStudent(@PathVariable("studentId") Integer studentId, @RequestBody Student student) {
-		deleteStudent(studentId);
+	@PutMapping//(path="{studentId}")
+	@PreAuthorize("hasAuthority('student:write')")
+//	public void updateStudent(@PathVariable("studentId") Integer studentId, @RequestBody Student student) {
+	public void updateStudent( @RequestBody Student student) {
+		deleteStudent(student.getStudentId());
 		students.add(student);
-		System.out.println("Student with id "+studentId+" is updated!");
-		logger.info("Student with id "+studentId+" is updated!");
+		System.out.println("Student with id "+student.getStudentId()+" is updated!");
+		logger.info("Student with id "+student.getStudentId()+" is updated!");
 	}
 }
