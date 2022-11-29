@@ -1,7 +1,6 @@
 package com.sample.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -21,7 +20,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/management/api/v1/students")
-@SecurityRequirement(name = "Muh2")
+@SecurityRequirement(name = "Muh2")//for openapi authentication
 public class StudentMangementController {
 	
 	private Logger logger =Logger.getLogger(StudentMangementController.class);

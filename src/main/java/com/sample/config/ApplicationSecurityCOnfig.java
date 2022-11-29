@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import com.sample.auth.ApplicationUserService;
 
 import static com.sample.config.ApplicationUserPermission.*;
 import static com.sample.config.ApplicationUserRole.*;
@@ -35,6 +39,9 @@ public class ApplicationSecurityCOnfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private ApplicationUserService applicationUserService;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -43,40 +50,49 @@ public class ApplicationSecurityCOnfig extends WebSecurityConfigurerAdapter {
 			.authorizeHttpRequests()
 			.antMatchers(AUTH_WHITELIST).permitAll()//white listed Urls
 			.antMatchers("/api/**").hasRole(STUDENT.name())//only students can reach that path
-//			.antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
-//			.antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
-//			.antMatchers(HttpMethod.PUT, "/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
-//			.antMatchers(HttpMethod.GET,"/management/api/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())//@PreAuthorize is used instead
 			.anyRequest()
 			.authenticated()
 			.and()
 			.httpBasic();
 	}
 	
-	@Override
 	@Bean
-	protected UserDetailsService userDetailsService() {
-		UserDetails user1=User.builder()
-				.username("Ozgur")
-				.password(passwordEncoder.encode("571"))
-		//		.roles(STUDENT.name())
-				.authorities(STUDENT.getGrantedAuthorities())
-				.build();
-		
-		UserDetails user2=User.builder()
-				.username("Muhammed")
-				.password(passwordEncoder.encode("622"))
-			//	.roles(ADMIN.name())
-				.authorities(ADMIN.getGrantedAuthorities())
-				.build();
-		
-		UserDetails user3=User.builder()
-				.username("Abdul Kadr")
-				.password(passwordEncoder.encode("632"))
-			//	.roles(ADMINTRAINEE.name())
-				.authorities(ADMINTRAINEE.getGrantedAuthorities())
-				.build();
-		return new InMemoryUserDetailsManager(user1, user2,user3);
+	public DaoAuthenticationProvider daoAuthenticationProvider() {
+		DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
+		provider.setPasswordEncoder(passwordEncoder);
+		provider.setUserDetailsService(applicationUserService);
+		return provider;
 	}
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.authenticationProvider(daoAuthenticationProvider());
+	}
+	
+//	@Override
+//	@Bean
+//	protected UserDetailsService userDetailsService() {
+//		UserDetails user1=User.builder()
+//				.username("Ozgur")
+//				.password(passwordEncoder.encode("571"))
+//		//		.roles(STUDENT.name())
+//				.authorities(STUDENT.getGrantedAuthorities())
+//				.build();
+//		
+//		UserDetails user2=User.builder()
+//				.username("Muhammed")
+//				.password(passwordEncoder.encode("622"))
+//			//	.roles(ADMIN.name())
+//				.authorities(ADMIN.getGrantedAuthorities())
+//				.build();
+//		
+//		UserDetails user3=User.builder()
+//				.username("Abdul Kadr")
+//				.password(passwordEncoder.encode("632"))
+//			//	.roles(ADMINTRAINEE.name())
+//				.authorities(ADMINTRAINEE.getGrantedAuthorities())
+//				.build();
+//		return new InMemoryUserDetailsManager(user1, user2,user3);
+//	}
 
 }
