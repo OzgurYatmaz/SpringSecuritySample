@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,36 +15,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sample.model.Student;
+import com.sample.entity.Student;
+import com.sample.service.StudentService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/management/api/v1/students")
-@SecurityRequirement(name = "Muh2")//for openapi authentication
+@SecurityRequirement(name = "Real")//for openapi authentication
 public class StudentMangementController {
 	
 	private Logger logger =Logger.getLogger(StudentMangementController.class);
 	
-	static List<Student> students;
-	static {
-		students=new ArrayList<>();
-		students.add(new Student(1, "Ebu Bekr bin Kuhafe"));
-		students.add(new Student(2, "Muhammad ibn Idrīs"));
-		students.add(new Student(3, "Malik bin Enes"));
-	}
+	@Autowired
+	StudentService studentService;
 		    
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ADMINTRAINEE')")
 	public List<Student> getAllStudents(){
 		logger.info("All students are listed!");
-		return students;
+		return studentService.getStudents();
 	}
 	
 	@PostMapping                 
 	@PreAuthorize("hasAuthority('student:write')")
 	public void registerNewStudent(@RequestBody Student student) {
-		students.add(student);
+		studentService.saveStudent(student);
 		logger.info(student.getStudentName()+" is added!");
 		System.out.println(student.getStudentName()+" is added!");
 	}
@@ -52,15 +49,7 @@ public class StudentMangementController {
 	@PreAuthorize("hasAuthority('student:write')")
 	public void deleteStudent(@PathVariable("studentId") Integer studentId) {
 		try {
-			int index=0;
-			for(Student s:students) {
-				if(s.getStudentId()==studentId) {
-					students.remove(index);
-					System.out.println(s.getStudentName()+" is removed!");
-					logger.info(s.getStudentName()+" is removed!");
-				}
-				index++;
-			}
+			studentService.deleteStudent(studentId);
 		} catch (Exception e) {
 			//e.printStackTrace();
 			System.out.println(e.getMessage());
@@ -72,9 +61,9 @@ public class StudentMangementController {
 	@PreAuthorize("hasAuthority('student:write')")
 //	public void updateStudent(@PathVariable("studentId") Integer studentId, @RequestBody Student student) {
 	public void updateStudent( @RequestBody Student student) {
-		deleteStudent(student.getStudentId());
-		students.add(student);
-		System.out.println("Student with id "+student.getStudentId()+" is updated!");
-		logger.info("Student with id "+student.getStudentId()+" is updated!");
+//		deleteStudent(student.getStudentId());
+//		students.add(student);
+//		System.out.println("Student with id "+student.getStudentId()+" is updated!");
+//		logger.info("Student with id "+student.getStudentId()+" is updated!");
 	}
 }

@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "7b48ff7a-f3d0-4495-87ac-07088e748ba0",
-		"name": "Clean Security sample Admin",
+		"name": "Clean Security sample for  Admin Role",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -13,12 +13,12 @@
 					"basic": [
 						{
 							"key": "password",
-							"value": "571",
+							"value": "622",
 							"type": "string"
 						},
 						{
 							"key": "username",
-							"value": "Ozgur",
+							"value": "Muhammed",
 							"type": "string"
 						}
 					]

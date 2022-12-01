@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "0d669e87-7dac-437f-924d-a115b8520684",
-		"name": "Clean Security sample Admintrainee",
+		"name": "Clean Security sample for Admintrainee Role",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -12,13 +12,13 @@
 					"type": "basic",
 					"basic": [
 						{
-							"key": "password",
-							"value": "571",
+							"key": "username",
+							"value": "Abdul Kadr",
 							"type": "string"
 						},
 						{
-							"key": "username",
-							"value": "Ozgur",
+							"key": "password",
+							"value": "632",
 							"type": "string"
 						}
 					]
@@ -100,7 +100,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/management/api/v1/students/1",
+					"raw": "http://localhost:8080/management/api/v1/students/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -111,7 +111,7 @@
 						"api",
 						"v1",
 						"students",
-						"1"
+						"2"
 					]
 				}
 			},

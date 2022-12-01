@@ -1,0 +1,6 @@
+CREATE TABLE `student` (
+  `studentId` int NOT NULL,
+  `studentName` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`studentId`),
+  UNIQUE KEY `studentId_UNIQUE` (`studentId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci

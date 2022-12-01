@@ -1,4 +1,4 @@
-package com.sample.auth;
+package com.sample.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

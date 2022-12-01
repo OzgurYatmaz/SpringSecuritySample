@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.sample.config.ApplicationUserRole;
+import com.sample.entity.User;
 
 public class ApplicationUser implements UserDetails {
 

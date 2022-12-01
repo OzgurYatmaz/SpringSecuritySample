@@ -17,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import com.sample.auth.ApplicationUserService;
+import com.sample.service.ApplicationUserService;
 
 import static com.sample.config.ApplicationUserPermission.*;
 import static com.sample.config.ApplicationUserRole.*;

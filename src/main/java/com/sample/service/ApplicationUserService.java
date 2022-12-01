@@ -1,4 +1,4 @@
-package com.sample.auth;
+package com.sample.service;
 
 import java.util.Optional;
 
@@ -8,6 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import com.sample.auth.ApplicationUser;
+import com.sample.entity.User;
+import com.sample.repository.UserRepository;
 
 @Service
 public class ApplicationUserService implements UserDetailsService {
