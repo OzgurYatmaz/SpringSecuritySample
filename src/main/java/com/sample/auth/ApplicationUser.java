@@ -10,9 +10,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.sample.config.ApplicationUserRole;
+
 public class ApplicationUser implements UserDetails {
 
-	private final Set<? extends GrantedAuthority> grantedAuthorities;
+	private final Set<SimpleGrantedAuthority> grantedAuthorities;
 	private final String username;
 	private final String password;
 	private final boolean isAccountNonExpired;
@@ -22,11 +24,11 @@ public class ApplicationUser implements UserDetails {
 	
 	
 	public ApplicationUser(User user) {
-		this.grantedAuthorities =Arrays.stream(user.getRoles().split(","))
-									.map(SimpleGrantedAuthority::new)
-									.collect(Collectors.toSet());
-	//	this.grantedAuthorities =ApplicationUserRole.valueOf(user.getRoles()).getGrantedAuthorities().stream().map(SimpleGrantedAuthority::new)
-	//			.collect(Collectors.toSet());
+//		this.grantedAuthorities =Arrays.stream(user.getRoles().split(","))
+//									.map(SimpleGrantedAuthority::new)
+//									.collect(Collectors.toSet());
+		this.grantedAuthorities =ApplicationUserRole.valueOf(user.getRoles()).getGrantedAuthorities();
+				 
 		this.username = user.getUserName();
 		this.password = user.getPassword();
 		this.isAccountNonExpired = user.isActive();
