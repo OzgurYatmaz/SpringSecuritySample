@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
@@ -69,30 +70,5 @@ public class ApplicationSecurityCOnfig extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(daoAuthenticationProvider());
 	}
 	
-//	@Override
-//	@Bean
-//	protected UserDetailsService userDetailsService() {
-//		UserDetails user1=User.builder()
-//				.username("Ozgur")
-//				.password(passwordEncoder.encode("571"))
-//		//		.roles(STUDENT.name())
-//				.authorities(STUDENT.getGrantedAuthorities())
-//				.build();
-//		
-//		UserDetails user2=User.builder()
-//				.username("Muhammed")
-//				.password(passwordEncoder.encode("622"))
-//			//	.roles(ADMIN.name())
-//				.authorities(ADMIN.getGrantedAuthorities())
-//				.build();
-//		
-//		UserDetails user3=User.builder()
-//				.username("Abdul Kadr")
-//				.password(passwordEncoder.encode("632"))
-//			//	.roles(ADMINTRAINEE.name())
-//				.authorities(ADMINTRAINEE.getGrantedAuthorities())
-//				.build();
-//		return new InMemoryUserDetailsManager(user1, user2,user3);
-//	}
 
 }

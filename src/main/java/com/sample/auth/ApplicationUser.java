@@ -1,9 +1,13 @@
 package com.sample.auth;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class ApplicationUser implements UserDetails {
@@ -17,21 +21,21 @@ public class ApplicationUser implements UserDetails {
 	private final boolean isEnabled;
 	
 	
-	public ApplicationUser( String username, 
-							String password,
-							Set<? extends GrantedAuthority> grantedAuthorities,
-							boolean isAccountNonExpired, 
-							boolean isAccountNonLocked, 
-							boolean isCredentialsNonExpired,
-							boolean isEnabled) {
-		this.grantedAuthorities = grantedAuthorities;
-		this.username = username;
-		this.password = password;
-		this.isAccountNonExpired = isAccountNonExpired;
-		this.isAccountNonLocked = isAccountNonLocked;
-		this.isCredentialsNonExpired = isCredentialsNonExpired;
-		this.isEnabled = isEnabled;
+	public ApplicationUser(User user) {
+		this.grantedAuthorities =Arrays.stream(user.getRoles().split(","))
+									.map(SimpleGrantedAuthority::new)
+									.collect(Collectors.toSet());
+	//	this.grantedAuthorities =ApplicationUserRole.valueOf(user.getRoles()).getGrantedAuthorities().stream().map(SimpleGrantedAuthority::new)
+	//			.collect(Collectors.toSet());
+		this.username = user.getUserName();
+		this.password = user.getPassword();
+		this.isAccountNonExpired = user.isActive();
+		this.isAccountNonLocked = user.isActive();
+		this.isCredentialsNonExpired = user.isActive();
+		this.isEnabled = user.isActive();
 	}
+
+	 
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
