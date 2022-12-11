@@ -1,6 +1,5 @@
 package com.sample.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -50,6 +49,7 @@ public class StudentMangementController {
 	public void deleteStudent(@PathVariable("studentId") Integer studentId) {
 		try {
 			studentService.deleteStudent(studentId);
+			logger.info("Student with id "+studentId+" is deleted!");
 		} catch (Exception e) {
 			//e.printStackTrace();
 			System.out.println(e.getMessage());
