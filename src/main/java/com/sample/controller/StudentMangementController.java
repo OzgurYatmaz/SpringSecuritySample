@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +46,7 @@ public class StudentMangementController {
 	
 	@PostMapping                 
 	@PreAuthorize("hasAuthority('student:write')")
-	public void registerNewStudent(@RequestBody Student student) {
+	public ResponseEntity<String> registerNewStudent(@RequestBody Student student) {
 		try {
 			studentService.saveStudent(student);
 			logger.info(student.getStudentName()+" is added!");
@@ -54,11 +55,12 @@ public class StudentMangementController {
 			System.out.println(e.getMessage());
 			logger.error(e.getMessage());
 		}
+		return ResponseEntity.ok("Student "+student.getStudentName()+" is added to DB");
 	}
 	
 	@DeleteMapping(path="{studentId}")
 	@PreAuthorize("hasAuthority('student:write')")
-	public void deleteStudent(@PathVariable("studentId") Integer studentId) {
+	public ResponseEntity<String>  deleteStudent(@PathVariable("studentId") Integer studentId) {
 		try {
 			studentService.deleteStudent(studentId);
 			logger.info("Student with id "+studentId+" is deleted!");
@@ -66,13 +68,13 @@ public class StudentMangementController {
 			System.out.println(e.getMessage());
 			logger.error(e.getMessage());
 		}
-		
+		return ResponseEntity.ok("Student with id "+studentId+" is deleted!");
 	}
 	
 	@PutMapping//(path="{studentId}")
 	@PreAuthorize("hasAuthority('student:write')")
 //	public void updateStudent(@PathVariable("studentId") Integer studentId, @RequestBody Student student) {
-	public void updateStudent( @RequestBody Student student) {
+	public ResponseEntity<String> updateStudent( @RequestBody Student student) {
 		try {
 			deleteStudent(student.getStudentId());
 			registerNewStudent(student);
@@ -82,5 +84,7 @@ public class StudentMangementController {
 			System.out.println(e.getMessage());
 			logger.error(e.getMessage());
 		}
+		
+		return ResponseEntity.ok("Student with id "+student.getStudentId()+" is updated!");
 	}
 }
