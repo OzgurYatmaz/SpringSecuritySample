@@ -32,16 +32,28 @@ public class StudentMangementController {
 	@GetMapping
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ADMINTRAINEE')")
 	public List<Student> getAllStudents(){
-		logger.info("All students are listed!");
-		return studentService.getStudents();
+		List<Student> students=null;
+		try {
+			logger.info("All students are listed!");
+			students = studentService.getStudents();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			logger.error(e.getMessage());
+		}
+		return students;
 	}
 	
 	@PostMapping                 
 	@PreAuthorize("hasAuthority('student:write')")
 	public void registerNewStudent(@RequestBody Student student) {
-		studentService.saveStudent(student);
-		logger.info(student.getStudentName()+" is added!");
-		System.out.println(student.getStudentName()+" is added!");
+		try {
+			studentService.saveStudent(student);
+			logger.info(student.getStudentName()+" is added!");
+			System.out.println(student.getStudentName()+" is added!");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			logger.error(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping(path="{studentId}")
@@ -51,8 +63,8 @@ public class StudentMangementController {
 			studentService.deleteStudent(studentId);
 			logger.info("Student with id "+studentId+" is deleted!");
 		} catch (Exception e) {
-			//e.printStackTrace();
 			System.out.println(e.getMessage());
+			logger.error(e.getMessage());
 		}
 		
 	}
@@ -61,9 +73,14 @@ public class StudentMangementController {
 	@PreAuthorize("hasAuthority('student:write')")
 //	public void updateStudent(@PathVariable("studentId") Integer studentId, @RequestBody Student student) {
 	public void updateStudent( @RequestBody Student student) {
-//		deleteStudent(student.getStudentId());
-//		students.add(student);
-//		System.out.println("Student with id "+student.getStudentId()+" is updated!");
-//		logger.info("Student with id "+student.getStudentId()+" is updated!");
+		try {
+			deleteStudent(student.getStudentId());
+			registerNewStudent(student);
+			System.out.println("Student with id "+student.getStudentId()+" is updated!");
+			logger.info("Student with id "+student.getStudentId()+" is updated!");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			logger.error(e.getMessage());
+		}
 	}
 }
