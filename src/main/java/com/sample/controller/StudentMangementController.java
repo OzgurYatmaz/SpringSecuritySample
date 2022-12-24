@@ -1,5 +1,6 @@
 package com.sample.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sample.entity.Student;
 import com.sample.service.StudentService;
@@ -54,9 +56,15 @@ public class StudentMangementController {
 		try {
 			studentService.saveStudent(student);
 			logger.info(student.getStudentName()+" is added!");
+			//warning: no mapping for returned uri
+			URI uriLocation=ServletUriComponentsBuilder
+										.fromCurrentRequest()
+										.path("/{id}")
+										.buildAndExpand(student.getStudentId())
+										.toUri();
 			response=ResponseEntity
 					.status(HttpStatus.CREATED)
-					.body("Student is successfully registered!");
+					.body("student is created at following uri: "+uriLocation.toString());
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			response=ResponseEntity
